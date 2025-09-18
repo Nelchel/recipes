@@ -24,7 +24,7 @@ function App() {
   };
 
   return (
-    <div className="max-w-7xl m-auto">
+ <>
 <nav class="relative bg-gray-800/50 after:pointer-events-none after:absolute after:inset-x-0 after:bottom-0 after:h-px after:bg-white/10">
   <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
     <div class="relative flex h-16 items-center justify-between">
@@ -90,7 +90,7 @@ function App() {
     </div>
   </el-disclosure>
 </nav>
-    
+       <div className="max-w-7xl m-auto">
         <RecipeForm addRecipe={addRecipe} />
         <RecipeList recipes={recipes} onSelect={setSelectedRecipe} />
         {selectedRecipe !== null && (
@@ -101,6 +101,8 @@ function App() {
             />
         )}
       </div>
+
+      </>
   );
 }
 
