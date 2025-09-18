@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mon carnet de recettes</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>🍲 Mon carnet de recettes</h1>
+
+    <section class="form-section">
+      <h2>Ajouter une recette</h2>
+      <form id="recipe-form">
+        <input type="text" id="title" placeholder="Nom de la recette" required />
+        <textarea id="ingredients" placeholder="Ingrédients (un par ligne)" required></textarea>
+        <textarea id="instructions" placeholder="Instructions" required></textarea>
+        <button type="submit">Ajouter</button>
+      </form>
+    </section>
+
+    <section class="recipes-section">
+      <h2>📋 Recettes enregistrées</h2>
+      <ul id="recipe-list"></ul>
+    </section>
+
+    <section id="recipe-details" class="hidden">
+      <h2 id="detail-title"></h2>
+      <h3>Ingrédients</h3>
+      <ul id="detail-ingredients"></ul>
+      <h3>Instructions</h3>
+      <p id="detail-instructions"></p>
+      <button id="delete-recipe">🗑 Supprimer</button>
+      <button id="close-details">Fermer</button>
+    </section>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
