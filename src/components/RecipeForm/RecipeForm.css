@@ -27,3 +27,11 @@
 .form-content-input-large {
     min-width: calc(50% - 8px);
 }
+
+.form-content-input-qty {
+    max-width: 100px;
+}
+
+.form-content-input-time {
+    min-width: calc(100% / 3 - (48px / 3));
+}
