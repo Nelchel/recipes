@@ -1,0 +1,29 @@
+
+.form {
+    background: #00000066;
+    backdrop-filter: blur(30px);
+}
+
+.form-content {
+    position: relative;
+    z-index: 2;
+}
+
+.form-content-file {
+   min-width: 345px;
+}
+
+.form-content-input {
+    background: #333333;
+    border-radius: 8px;
+    padding: 12px;
+    color: white;
+}
+
+.form-content-input-desc {
+    height: 151px;
+}
+
+.form-content-input-large {
+    min-width: calc(50% - 8px);
+}

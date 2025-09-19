@@ -5,6 +5,7 @@ import RecipeDetail from "./components/RecipeDetail/RecipeDetail";
 import Nav from "./components/Nav/Nav";
 import { Routes, Route, Link, useParams, Navigate } from "react-router-dom";
 import Homepage from "./pages/homepage";
+import AddRecipe from "./pages/recipes/add";
 
 function App() {
   const [recipes, setRecipes] = useState(() => {
@@ -31,12 +32,16 @@ function App() {
         <Nav />
         <Routes>
           <Route path="/" element={<Homepage />} />
+          <Route path="/recipes/add" element={<AddRecipe addRecipe={addRecipe} />} />
+        </Routes>
+{/*        <Nav />
+        <Routes>
+          <Route path="/" element={<Homepage />} />
           <Route path="/recettes" element={<RecipeForm />} />
           <Route path="/recettes/:id" element={<RecipeDetail />} />
           <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
-        <div className="max-w-7xl m-auto">
-          <RecipeForm addRecipe={addRecipe} />
+        </Routes>*/}
+{/*        <div className="max-w-7xl m-auto">
           <RecipeList recipes={recipes} onSelect={setSelectedRecipe} />
           {selectedRecipe !== null && (
               <RecipeDetail
@@ -45,7 +50,7 @@ function App() {
                   onDelete={() => deleteRecipe(selectedRecipe)}
               />
           )}
-        </div>
+        </div>*/}
       </>
   );
 }
