@@ -31,13 +31,13 @@ const Nav  = () => (
                         <div className="flex space-x-4">
 
                             <a href="#" aria-current="page"
-                               className="rounded-md bg-gray-950/50 px-3 py-2 text-sm font-medium text-white">Dashboard</a>
+                               className="rounded-md bg-gray-950/50 px-3 py-2 text-sm font-medium text-white">Recettes</a>
                             <a href="#"
-                               className="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-white/5 hover:text-white">Team</a>
+                               className="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-white/5 hover:text-white">Accueil</a>
                             <a href="#"
-                               className="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-white/5 hover:text-white">Projects</a>
+                               className="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-white/5 hover:text-white">Trouver une recette</a>
                             <a href="#"
-                               className="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-white/5 hover:text-white">Calendar</a>
+                               className="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-white/5 hover:text-white">Profil</a>
                         </div>
                     </div>
                 </div>
@@ -61,13 +61,13 @@ const Nav  = () => (
         <el-disclosure id="mobile-menu" hidden className="sm:hidden [&:not([hidden])]:block">
             <div className="space-y-1 px-2 pb-3 pt-2">
                 <a href="#" aria-current="page"
-                   className="block rounded-md bg-gray-950/50 px-3 py-2 text-base font-medium text-white">Dashboard</a>
+                   className="block rounded-md bg-gray-950/50 px-3 py-2 text-base font-medium text-white">Recettes</a>
                 <a href="#"
-                   className="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-white/5 hover:text-white">Team</a>
+                   className="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-white/5 hover:text-white">Accueil</a>
                 <a href="#"
-                   className="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-white/5 hover:text-white">Projects</a>
+                   className="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-white/5 hover:text-white">Trouver une recette</a>
                 <a href="#"
-                   className="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-white/5 hover:text-white">Calendar</a>
+                   className="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-white/5 hover:text-white">Profil</a>
             </div>
         </el-disclosure>
     </nav>
