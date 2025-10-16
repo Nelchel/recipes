@@ -1,18 +1,64 @@
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import './RecipeForm.css';
+import {
+    collection,
+    doc,
+    serverTimestamp,
+    setDoc,
+} from "firebase/firestore";
+import {
+    ref as storageRef,
+    uploadBytes,
+    getDownloadURL,
+} from "firebase/storage";
+import { db, storage } from "../../firebaseClient";
 
 export default function RecipeForm({ addRecipe }) {
     const [title, setTitle] = useState("");
-    const [instructions, setInstructions] = useState("");
+    const [description, setDescription] = useState("");
+    const [ingredients, setIngredients] = useState([{ name: "", qty: "", unit: "" }]);
+    const [steps, setSteps] = useState([""]);
+    const [prepTime, setPrepTime] = useState("");
+    const [cookTime, setCookTime] = useState("");
+    const [servings, setServings] = useState("");
+    const [tags, setTags] = useState("");
+    const [imageFile, setImageFile] = useState(null);
+    const [imagePreview, setImagePreview] = useState("");
+    const [submitting, setSubmitting] = useState(false);
+    const [errorMsg, setErrorMsg] = useState("");
 
-    const [ingredients, setIngredients] = useState([
-        { name: "", qty: "", unit: "" },
-        { name: "", qty: "", unit: "" },
-        { name: "", qty: "", unit: "" },
-        { name: "", qty: "", unit: "" },
-    ]);
+    const [image,setImage]= useState("")
 
-    const [steps, setSteps] = useState(["", "", "", ""]);
+    useEffect(() => {
+        const saved = localStorage.getItem("recipeForm");
+        if (saved) {
+            const data = JSON.parse(saved);
+            setTitle(data.title || "");
+            setDescription(data.description || "");
+            setIngredients(data.ingredients?.length ? data.ingredients : [{ name: "", qty: "", unit: "" }]);
+            setSteps(data.steps?.length ? data.steps : [""]);
+            setPrepTime(data.prepTime || "");
+            setCookTime(data.cookTime || "");
+            setServings(data.servings || "");
+            setTags(data.tags || "");
+            setImage(data.image || null);
+        }
+    }, []);
+
+    useEffect(() => {
+        const data = {
+            title,
+            description,
+            ingredients,
+            steps,
+            prepTime,
+            cookTime,
+            servings,
+            tags,
+            image,
+        };
+        localStorage.setItem("recipeForm", JSON.stringify(data));
+    }, [title, description, ingredients, steps, prepTime, cookTime, servings, tags, image]);
 
     const addIngredient = () =>
         setIngredients((arr) => [...arr, { name: "", qty: "", unit: "" }]);
@@ -30,27 +76,63 @@ export default function RecipeForm({ addRecipe }) {
     const updateStep = (idx, value) =>
         setSteps((arr) => arr.map((s, i) => (i === idx ? value : s)));
 
-    const onSubmit = (e) => {
+    const onSubmit = async (e) => {
         e.preventDefault();
+        setSubmitting(true);
+        setErrorMsg("");
 
-        const cleanedIngredients = ingredients.filter((i) => i.name.trim() !== "");
-        const cleanedSteps = steps.filter((s) => s.trim() !== "");
+        try {
+            const cleanedIngredients = ingredients.filter((i) => i.name.trim() !== "");
+            const cleanedSteps = steps.filter((s) => s.trim() !== "");
+            const id = (window.crypto?.randomUUID?.() ?? String(Date.now()));
+            const tagsArr = tags.split(",").map((t) => t.trim()).filter(Boolean);
 
-        const recipe = {
-            id: (window.crypto?.randomUUID?.() ?? String(Date.now())),
-            title: title.trim(),
-            ingredients: cleanedIngredients,
-            steps: cleanedSteps,
-            createdAt: new Date().toISOString(),
-        };
+            // upload image (si présente)
+/*            const imageUrl = await uploadImageIfNeeded(id);*/
 
-        addRecipe(recipe);
 
-        setTitle("");
-        setIngredients([{ name: "", qty: "", unit: "" }]);
-        setSteps([""]);
+            const recipe = {
+                id,
+                title: title.trim(),
+                description: description.trim(),
+                ingredients: cleanedIngredients,
+                steps: cleanedSteps,
+                prepTime: prepTime.trim(),
+                cookTime: cookTime.trim(),
+                servings: servings.trim(),
+                tags: tagsArr,
+                imageUrl:  null,
+                createdAt: serverTimestamp(),
+            };
+
+            console.log(recipe);
+
+            const col = collection(db, "recipes");
+            const docRef = doc(col, id);
+            await setDoc(docRef, recipe);
+
+            console.log(docRef)
+
+            setTitle("");
+            setDescription("");
+            setIngredients([{ name: "", qty: "", unit: "" }]);
+            setSteps([""]);
+            setPrepTime("");
+            setCookTime("");
+            setServings("");
+            setTags("");
+            setImageFile(null);
+            setImagePreview("");
+            localStorage.removeItem("recipeForm");
+
+            alert("Recette enregistrée !");
+        } catch (err) {
+            console.error(err);
+            setErrorMsg("Impossible d’enregistrer la recette. Réessaie dans un instant.");
+        } finally {
+            setSubmitting(false);
+        }
     };
-
     return (
         <form className="form" onSubmit={onSubmit}>
             <div className="form-content">
@@ -191,7 +273,13 @@ export default function RecipeForm({ addRecipe }) {
                         <input type="text" className="form-content-input w-full" />
                     </div>
                 </div>
-                <button type="submit">Ajouter</button>
+                <div className="w-full">
+                    <p className="text-white pb-4 pt-8">Tags de la recette</p>
+                    <input type="text" className="form-content-input w-full" />
+                </div>
+                <div className="w-fit m-auto pt-10">
+                    <button type="submit" className="form-content-button"><p className="text-white">Ajouter une recette</p></button>
+                </div>
             </div>
         </form>
     );

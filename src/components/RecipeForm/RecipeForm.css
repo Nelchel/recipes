@@ -35,3 +35,9 @@
 .form-content-input-time {
     min-width: calc(100% / 3 - (48px / 3));
 }
+
+.form-content-button {
+    background: #6B5DFF;
+    padding: 10px 24px;
+    border-radius: 4px;
+}

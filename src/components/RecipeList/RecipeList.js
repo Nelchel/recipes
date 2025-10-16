@@ -1,6 +1,8 @@
 import React from "react";
 
 export default function RecipeList({ recipes, onSelect }) {
+
+
     return (
         <div>
             <h2>📋 Recettes</h2>
