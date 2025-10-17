@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from "react";
-import RecipeForm from "./components/RecipeForm/RecipeForm";
-import RecipeList from "./components/RecipeList/RecipeList";
-import RecipeDetail from "./components/RecipeDetail/RecipeDetail";
 import Nav from "./components/Nav/Nav";
-import { Routes, Route, Link, useParams, Navigate } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import Homepage from "./pages/homepage";
 import AddRecipe from "./pages/recipes/add";
 import ListRecipe from "./pages/recipes/list";
+import RecipeDetail from "./pages/recipes/detail";
 
 function App() {
   const [recipes, setRecipes] = useState(() => {
@@ -14,19 +12,11 @@ function App() {
     return stored ? JSON.parse(stored) : [];
   });
 
-  const [selectedRecipe, setSelectedRecipe] = useState(null);
-
   useEffect(() => {
     localStorage.setItem("recipes", JSON.stringify(recipes));
   }, [recipes]);
 
   const addRecipe = (recipe) => setRecipes([...recipes, recipe]);
-  const deleteRecipe = (index) => {
-    const newRecipes = [...recipes];
-    newRecipes.splice(index, 1);
-    setRecipes(newRecipes);
-    setSelectedRecipe(null);
-  };
 
   return (
       <>
@@ -34,7 +24,8 @@ function App() {
         <Routes>
           <Route path="/" element={<Homepage />} />
           <Route path="/recipes/add" element={<AddRecipe addRecipe={addRecipe} />} />
-          <Route path="/recipes/list" element={<ListRecipe addRecipe={addRecipe} />} />
+          <Route path="/recipes/list" element={<ListRecipe />} />
+            <Route path="/recipes/:id" element={<RecipeDetail />} />
         </Routes>
 {/*        <Nav />
         <Routes>

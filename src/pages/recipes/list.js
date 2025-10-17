@@ -8,11 +8,14 @@ import {
     orderBy,
     onSnapshot,
 } from "firebase/firestore";
+import {useNavigate} from "react-router-dom";
 
 export default function ListRecipe() {
     const [recipes, setRecipes] = useState([]);
     const [loading, setLoading] = useState(true);
     const [err, setErr] = useState("");
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         const q = query(collection(db, "recipes"), orderBy("createdAt", "desc"));
@@ -59,7 +62,7 @@ export default function ListRecipe() {
                 {err ? (
                     <p className="text-red-400">{err}</p>
                 ) : (
-                    <RecipeList recipes={recipes} />
+                    <RecipeList recipes={recipes} onSelect={(id) => navigate(`/recipes/${id}`)} />
                 )}
             </div>
         </section>
