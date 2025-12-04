@@ -16,6 +16,8 @@
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-hooks": "^7.0.0",
     "firebase": "^12.4.0",
+    "framer-motion": "^12.23.25",
+    "motion": "^12.23.25",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "react-router-dom": "^7.9.1",

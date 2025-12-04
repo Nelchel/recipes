@@ -1,22 +1,12 @@
 import React, {useEffect, useState} from "react";
 import './RecipeForm.css';
-import {
-    collection,
-    doc,
-    serverTimestamp,
-    setDoc,
-} from "firebase/firestore";
-import {
-    ref as storageRef,
-    uploadBytes,
-    getDownloadURL,
-} from "firebase/storage";
-import { db, storage } from "../../firebaseClient";
+import {collection, doc, serverTimestamp, setDoc,} from "firebase/firestore";
+import {db} from "../../firebaseClient";
 
-export default function RecipeForm() {
+export default function RecipeForm({setIsSubmit}) {
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
-    const [ingredients, setIngredients] = useState([{ name: "", qty: "", unit: "" }]);
+    const [ingredients, setIngredients] = useState([{name: "", qty: "", unit: ""}]);
     const [steps, setSteps] = useState([""]);
     const [prepTime, setPrepTime] = useState("");
     const [cookTime, setCookTime] = useState("");
@@ -25,9 +15,10 @@ export default function RecipeForm() {
     const [imageFile, setImageFile] = useState(null);
     const [imagePreview, setImagePreview] = useState("");
     const [submitting, setSubmitting] = useState(false);
+
     const [errorMsg, setErrorMsg] = useState("");
 
-    const [image,setImage]= useState("")
+    const [image, setImage] = useState("")
 
     useEffect(() => {
         const saved = localStorage.getItem("recipeForm");
@@ -35,7 +26,7 @@ export default function RecipeForm() {
             const data = JSON.parse(saved);
             setTitle(data.title || "");
             setDescription(data.description || "");
-            setIngredients(data.ingredients?.length ? data.ingredients : [{ name: "", qty: "", unit: "" }]);
+            setIngredients(data.ingredients?.length ? data.ingredients : [{name: "", qty: "", unit: ""}]);
             setSteps(data.steps?.length ? data.steps : [""]);
             setPrepTime(data.prepTime || "");
             setCookTime(data.cookTime || "");
@@ -61,14 +52,14 @@ export default function RecipeForm() {
     }, [title, description, ingredients, steps, prepTime, cookTime, servings, tags, image]);
 
     const addIngredient = () =>
-        setIngredients((arr) => [...arr, { name: "", qty: "", unit: "" }]);
+        setIngredients((arr) => [...arr, {name: "", qty: "", unit: ""}]);
 
     const removeIngredient = (idx) =>
         setIngredients((arr) => arr.filter((_, i) => i !== idx));
 
     const updateIngredient = (idx, field, value) =>
         setIngredients((arr) =>
-            arr.map((ing, i) => (i === idx ? { ...ing, [field]: value } : ing))
+            arr.map((ing, i) => (i === idx ? {...ing, [field]: value} : ing))
         );
 
     const addStep = () => setSteps((arr) => [...arr, ""]);
@@ -88,7 +79,7 @@ export default function RecipeForm() {
             const tagsArr = tags.split(",").map((t) => t.trim()).filter(Boolean);
 
             // upload image (si présente)
-/*            const imageUrl = await uploadImageIfNeeded(id);*/
+            /*            const imageUrl = await uploadImageIfNeeded(id);*/
 
 
             const recipe = {
@@ -101,7 +92,7 @@ export default function RecipeForm() {
                 cookTime: cookTime.trim(),
                 servings: servings.trim(),
                 tags: tagsArr,
-                imageUrl:  null,
+                imageUrl: null,
                 createdAt: serverTimestamp(),
             };
 
@@ -111,7 +102,7 @@ export default function RecipeForm() {
 
             setTitle("");
             setDescription("");
-            setIngredients([{ name: "", qty: "", unit: "" }]);
+            setIngredients([{name: "", qty: "", unit: ""}]);
             setSteps([""]);
             setPrepTime("");
             setCookTime("");
@@ -121,7 +112,7 @@ export default function RecipeForm() {
             setImagePreview("");
             localStorage.removeItem("recipeForm");
 
-            alert("Recette enregistrée !");
+            setIsSubmit(true)
         } catch (err) {
             setErrorMsg("Impossible d’enregistrer la recette. Réessaie dans un instant.");
         } finally {
@@ -162,7 +153,8 @@ export default function RecipeForm() {
                             className="w-full form-content-input"
                         />
                         <p className="text-white py-4">Description</p>
-                        <textarea className="w-full form-content-input form-content-input-desc" onChange={(e) => setDescription(e.target.value)}/>
+                        <textarea className="w-full form-content-input form-content-input-desc"
+                                  onChange={(e) => setDescription(e.target.value)}/>
                     </div>
                 </div>
                 <div className="flex gap-6 pt-4 w-full">
@@ -257,23 +249,24 @@ export default function RecipeForm() {
                 <div className="flex items-center gap-6 pt-6">
                     <div className="form-content-input-time">
                         <p className="text-white pb-4">Temps de préparation</p>
-                        <input type="text" className="form-content-input w-full" />
+                        <input type="text" className="form-content-input w-full"/>
                     </div>
                     <div className="form-content-input-time">
                         <p className="text-white pb-4">Temps de cuisson</p>
-                        <input type="text" className="form-content-input w-full" />
+                        <input type="text" className="form-content-input w-full"/>
                     </div>
                     <div className="form-content-input-time">
                         <p className="text-white pb-4">Nombre de couverts</p>
-                        <input type="text" className="form-content-input w-full" />
+                        <input type="text" className="form-content-input w-full"/>
                     </div>
                 </div>
                 <div className="w-full">
                     <p className="text-white pb-4 pt-8">Tags de la recette</p>
-                    <input type="text" className="form-content-input w-full" />
+                    <input type="text" className="form-content-input w-full"/>
                 </div>
                 <div className="w-fit m-auto pt-10">
-                    <button type="submit" className="form-content-button"><p className="text-white">Ajouter une recette</p></button>
+                    <button type="submit" className="form-content-button"><p className="text-white">Ajouter une
+                        recette</p></button>
                 </div>
             </div>
         </form>

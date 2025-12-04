@@ -1,0 +1,17 @@
+
+.notification {
+    position: absolute;
+    z-index: 10;
+    padding: 24px;
+    right: 0;
+    top: 16px;
+    backdrop-filter: blur(30px);
+    background: #0000004A;
+    border-radius: 8px;
+
+    & p {
+        color: #E5E5E5;
+        font-size: 13px;
+        line-height: 16px;
+    }
+}
