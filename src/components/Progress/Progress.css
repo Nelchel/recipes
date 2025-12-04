@@ -1,0 +1,14 @@
+.progress {
+    width: calc(100% + 32px);
+    height: 4px;
+    background: transparent;
+    overflow: hidden;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+}
+
+.progress-bar {
+    height: 100%;
+    background: #6361F2;
+}

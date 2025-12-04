@@ -2,12 +2,13 @@
 .notification {
     position: absolute;
     z-index: 10;
-    padding: 24px;
+    padding: 16px;
     right: 0;
     top: 16px;
     backdrop-filter: blur(30px);
     background: #0000004A;
     border-radius: 8px;
+    overflow: hidden;
 
     & p {
         color: #E5E5E5;

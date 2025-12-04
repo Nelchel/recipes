@@ -1,5 +1,6 @@
 import "./Notification.css"
 import {motion} from "framer-motion"
+import Progress from "../Progress/Progress";
 
 export default function Notification() {
 
@@ -15,6 +16,7 @@ export default function Notification() {
             }}
         >
             <p>La recette a été ajoutée avec succès.</p>
+            <Progress/>
         </motion.div>
     )
 }
