@@ -2,6 +2,8 @@
 .form {
     background: #00000066;
     backdrop-filter: blur(30px);
+    padding: 40px;
+    border-radius: 24px;
 }
 
 .form-content {
@@ -10,7 +12,7 @@
 }
 
 .form-content-file {
-   min-width: 345px;
+    min-width: 345px;
 }
 
 .form-content-input {

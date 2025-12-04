@@ -1,0 +1,14 @@
+.ellipse {
+    position: absolute;
+}
+
+.ellipse-one {
+    background: #6361F2;
+    filter: blur(600px);
+    width: 1100px;
+    height: 1100px;
+    z-index: -1;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
