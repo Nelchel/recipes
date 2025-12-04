@@ -1,6 +1,6 @@
 
 .form {
-    background: #00000066;
+    background: #0000004A;
     backdrop-filter: blur(30px);
     padding: 40px;
     border-radius: 24px;
@@ -16,7 +16,7 @@
 }
 
 .form-content-input {
-    background: #333333;
+    background: #0000004A;
     border-radius: 8px;
     padding: 12px;
     color: white;
@@ -42,4 +42,43 @@
     background: #6B5DFF;
     padding: 10px 24px;
     border-radius: 4px;
+}
+
+p {
+    font-size: 15px;
+    line-height: 20px;
+    color: #E5E5E5;
+}
+
+.dropzone-file {
+    background: #0000004A;
+    border-radius: 8px;
+    padding: 24px;
+    height: 255px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    p, svg {
+        color: #7C7C7C;
+        text-align: center;
+    }
+
+    svg {
+        margin: 0 auto;
+    }
+
+    span {
+        font-weight: 510;
+    }
+}
+
+.dropzone-file-label {
+    padding: 16px 0;
+}
+
+.dropzone-file-sublabel {
+    font-size: 13px;
+    line-height: 16px;
 }

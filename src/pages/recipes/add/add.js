@@ -20,7 +20,7 @@ export default function AddRecipe({addRecipe}) {
     return (
         <section className="relative">
             <div className="max-w-7xl m-auto relative">
-                <h2 className="text-5xl text-white py-12">Ajouter une recette</h2>
+                <h2 className="add-title">Ajouter une recette</h2>
                 <RecipeForm setIsSubmit={setIsSubmit}/>
                 <AnimatePresence>
                     {isSubmit && <Notification/>}

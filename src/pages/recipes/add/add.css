@@ -12,3 +12,10 @@
     left: 50%;
     transform: translate(-50%, -50%);
 }
+
+.add-title {
+    font-size: 50px;
+    line-height: 59px;
+    padding: 24px 0;
+    color: #E5E5E5;
+}
