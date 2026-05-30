@@ -233,13 +233,13 @@ export default function RecipeForm({setIsSubmit}: RecipeFormProps) {
                                     onChange={(e) => updateIngredient(idx, "name", e.target.value)}
                                 />
                                 <input
-                                    className={`form-content-input ${styles.formContentInputQty}`}
+                                    className={`${styles.formContentInput} ${styles.formContentInputQty}`}
                                     placeholder="Quantité"
                                     value={ing.qty}
                                     onChange={(e) => updateIngredient(idx, "qty", e.target.value)}
                                 />
                                 <input
-                                    className={`form-content-input ${styles.formContentInputQty}`}
+                                    className={`${styles.formContentInput} ${styles.formContentInputQty}`}
                                     placeholder="Unité"
                                     value={ing.unit}
                                     onChange={(e) => updateIngredient(idx, "unit", e.target.value)}
