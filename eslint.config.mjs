@@ -3,29 +3,22 @@ import pluginJs from "@eslint/js";
 import pluginReact from "eslint-plugin-react";
 import pluginReactHooks from "eslint-plugin-react-hooks";
 import pluginJsxA11y from "eslint-plugin-jsx-a11y";
-import babelParser from "@babel/eslint-parser";
+import tsParser from "@typescript-eslint/parser";
+import tsPlugin from "@typescript-eslint/eslint-plugin";
 import eslintConfigPrettier from "eslint-config-prettier";
 
 export default [
+    pluginJs.configs.recommended,
     {
-        files: ["**/*.{js,mjs,cjs,jsx}"],
+        files: ["**/*.{js,mjs,cjs,jsx,ts,tsx}"],
         ignores: ["node_modules/**", "public/**"],
         languageOptions: {
             ecmaVersion: 2020,
             sourceType: "module",
-            parser: babelParser,
+            parser: tsParser,
             parserOptions: {
-                requireConfigFile: false,
                 ecmaFeatures: {
-                    experimentalObjectRestSpread: true,
-                    impliedStrict: true,
-                    classes: true,
                     jsx: true
-                },
-                babelOptions: {
-                    parserOpts: {
-                        plugins: ["jsx"]
-                    }
                 }
             },
             globals: {
@@ -46,13 +39,15 @@ export default [
         plugins: {
             react: pluginReact,
             "react-hooks": pluginReactHooks,
-            "jsx-a11y": pluginJsxA11y
+            "jsx-a11y": pluginJsxA11y,
+            "@typescript-eslint": tsPlugin
         },
         rules: {
             // Adopting Airbnb "error" level for more stringent code quality
-            "no-console": "error",
+            "no-console": ["error", { allow: ["error", "warn"] }],
             "no-debugger": "error",
-            "no-unused-vars": ["error", { vars: "all", args: "after-used", ignoreRestSiblings: true }],
+            "no-unused-vars": "off",
+            "@typescript-eslint/no-unused-vars": ["error", { vars: "all", args: "after-used", ignoreRestSiblings: true }],
             "no-undef": "error",
             "no-empty": "error",
             eqeqeq: ["error", "always"],
@@ -157,6 +152,5 @@ export default [
             "react/no-array-index-key": "error"
         }
     },
-    pluginJs.configs.recommended,
     eslintConfigPrettier
 ];

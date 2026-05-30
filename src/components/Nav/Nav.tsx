@@ -14,7 +14,7 @@ export default function Nav() {
                                 aria-expanded={mobileOpen}
                                 aria-controls="mobile-menu"
                                 className="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-white/5 hover:text-white focus:outline focus:outline-2 focus:-outline-offset-1 focus:outline-indigo-500">
-                            <span className="absolute -inset-0.5"></span>
+                            <span className="absolute -inset-0.5" />
                             <span className="sr-only">Open main menu</span>
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" data-slot="icon"
                                  aria-hidden="true" className={`size-6 ${mobileOpen ? "hidden" : ""}`}>
@@ -47,7 +47,7 @@ export default function Nav() {
                         className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
                         <button type="button"
                                 className="relative rounded-full p-1 text-gray-400 hover:text-white focus:outline focus:outline-2 focus:outline-offset-2 focus:outline-indigo-500">
-                            <span className="absolute -inset-1.5"></span>
+                            <span className="absolute -inset-1.5" />
                             <span className="sr-only">View notifications</span>
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" data-slot="icon"
                                  aria-hidden="true" className="size-6">

@@ -1,7 +1,8 @@
 import {useEffect, useState, type FormEvent} from "react";
 import styles from "./RecipeForm.module.scss";
 import {collection, doc, serverTimestamp, setDoc,} from "firebase/firestore";
-import {db} from "../../firebaseClient";
+import {ref, uploadBytes, getDownloadURL} from "firebase/storage";
+import {db, storage} from "../../firebaseClient";
 import Button from "../Button/Button";
 
 interface RecipeFormProps {
@@ -24,6 +25,7 @@ export default function RecipeForm({setIsSubmit}: RecipeFormProps) {
     const [servings, setServings] = useState("");
     const [tags, setTags] = useState("");
     const [imagePreview, setImagePreview] = useState("");
+    const [selectedFile, setSelectedFile] = useState<File | null>(null);
     const [submitting, setSubmitting] = useState(false);
 
     useEffect(() => {
@@ -83,6 +85,13 @@ export default function RecipeForm({setIsSubmit}: RecipeFormProps) {
             const id = (window.crypto?.randomUUID?.() ?? String(Date.now()));
             const tagsArr = tags.split(",").map((t) => t.trim()).filter(Boolean);
 
+            let imageUrl: string | null = null;
+            if (selectedFile) {
+                const storageRef = ref(storage, `recipes/${id}/${selectedFile.name}`);
+                const snapshot = await uploadBytes(storageRef, selectedFile);
+                imageUrl = await getDownloadURL(snapshot.ref);
+            }
+
             const recipe = {
                 id,
                 title: title.trim(),
@@ -93,7 +102,7 @@ export default function RecipeForm({setIsSubmit}: RecipeFormProps) {
                 cookTime: cookTime.trim(),
                 servings: servings.trim(),
                 tags: tagsArr,
-                imageUrl: null,
+                imageUrl,
                 createdAt: serverTimestamp(),
             };
 
@@ -110,6 +119,7 @@ export default function RecipeForm({setIsSubmit}: RecipeFormProps) {
             setServings("");
             setTags("");
             setImagePreview("");
+            setSelectedFile(null);
             localStorage.removeItem("recipeForm");
 
             setIsSubmit(true)
@@ -146,6 +156,7 @@ export default function RecipeForm({setIsSubmit}: RecipeFormProps) {
                                         const file = e.target.files?.[0];
                                         if (file) {
                                             setImagePreview(URL.createObjectURL(file));
+                                            setSelectedFile(file);
                                         }
                                     }}
                                 />
@@ -171,6 +182,7 @@ export default function RecipeForm({setIsSubmit}: RecipeFormProps) {
                     <div className={styles.formContentInputLarge}>
                         <p className="pb-4">Instructions</p>
                         {steps.map((step, idx) => (
+                            // eslint-disable-next-line react/no-array-index-key
                             <div key={idx} className="flex items-center gap-2 pb-3">
                                 <span className={styles.textSecondary}>{idx + 1}.</span>
                                 <input
@@ -211,6 +223,7 @@ export default function RecipeForm({setIsSubmit}: RecipeFormProps) {
                     <div className={styles.formContentInputLarge}>
                         <p className="pb-4">Ingrédients</p>
                         {ingredients.map((ing, idx) => (
+                            // eslint-disable-next-line react/no-array-index-key
                             <div key={idx} className="flex items-center gap-2 pb-3">
                                 <span className={styles.textSecondary}>{idx + 1}.</span>
                                 <input

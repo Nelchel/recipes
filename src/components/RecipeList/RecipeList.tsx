@@ -16,18 +16,24 @@ export default function RecipeList({recipes, onSelect}: RecipeListProps) {
     return (
         <div className={styles.wrapperList}>
             <h2 className={styles.wrapperListTitle}>Recettes</h2>
-            <ul className="grid grid-cols-3 gap-10 pt-10">
+            <div className="grid grid-cols-3 gap-10 pt-10">
                 {recipes.map((recipe) => (
-                    <li key={recipe.id} className="col-span-1" onClick={() => onSelect?.(recipe.id)}>
+                    <div
+                        key={recipe.id}
+                        role="button"
+                        tabIndex={0}
+                        onClick={() => onSelect?.(recipe.id)}
+                        onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") onSelect?.(recipe.id); }}
+                    >
                         <div className={styles.wrapperListCard}>
                             <h4 className={styles.wrapperListCardTitle}>
                                 {recipe.title}
                             </h4>
                             <p className={styles.wrapperListCardDescription}>{recipe.description}</p>
                         </div>
-                    </li>
+                    </div>
                 ))}
-            </ul>
+            </div>
         </div>
     );
 }
