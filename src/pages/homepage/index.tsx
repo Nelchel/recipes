@@ -1,4 +1,3 @@
-import {Link} from "react-router-dom";
 import styles from "./homepage.module.scss";
 import Button from "../../components/Button/Button";
 
@@ -12,12 +11,8 @@ export default function Homepage() {
                         <h3 className={styles.wrapperSubtitle}>Ajoute tes recettes via l'onglet Recettes.</h3>
 
                         <div className={styles.wrapperButtons}>
-                            <Link to="/recipes/add">
-                                <Button><p>Ajouter une recette</p></Button>
-                            </Link>
-                            <Link to="/recipes/list">
-                                <Button><p>Voir les recettes</p></Button>
-                            </Link>
+                            <Button to="/recipes/add"><p>Ajouter une recette</p></Button>
+                            <Button to="/recipes/list"><p>Voir les recettes</p></Button>
                         </div>
                     </div>
                 </div>
