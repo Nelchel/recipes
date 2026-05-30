@@ -1,18 +1,15 @@
-import "./Progress.css"
+import styles from "./Progress.module.scss"
 import {motion} from "framer-motion"
 
 export default function Progress() {
-
     return (
-        <div
-            className="progress"
-        >
+        <div className={styles.progress}>
             <motion.div
-                className="progress-bar"
+                className={styles.progressBar}
                 initial={{width: "0%"}}
                 animate={{width: "100%"}}
                 transition={{duration: 5, ease: "linear"}}
             />
         </div>
-    )
+    );
 }

@@ -1,7 +1,7 @@
-import React, {useState} from "react";
+import {useState} from "react";
 import {NavLink} from "react-router-dom";
 
-const Nav  = () => {
+export default function Nav() {
     const [mobileOpen, setMobileOpen] = useState(false);
 
     return (
@@ -17,12 +17,12 @@ const Nav  = () => {
                             <span className="absolute -inset-0.5"></span>
                             <span className="sr-only">Open main menu</span>
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" data-slot="icon"
-                                 aria-hidden="true" className={`size-6 ${mobileOpen ? 'hidden' : ''}`}>
+                                 aria-hidden="true" className={`size-6 ${mobileOpen ? "hidden" : ""}`}>
                                 <path d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" strokeLinecap="round"
                                       strokeLinejoin="round"/>
                             </svg>
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" data-slot="icon"
-                                 aria-hidden="true" className={`size-6 ${mobileOpen ? '' : 'hidden'}`}>
+                                 aria-hidden="true" className={`size-6 ${mobileOpen ? "" : "hidden"}`}>
                                 <path d="M6 18 18 6M6 6l12 12" strokeLinecap="round" strokeLinejoin="round"/>
                             </svg>
                         </button>
@@ -62,7 +62,7 @@ const Nav  = () => {
             </div>
 
             <div id="mobile-menu"
-                 className={`sm:hidden ${mobileOpen ? '' : 'hidden'}`}>
+                 className={`sm:hidden ${mobileOpen ? "" : "hidden"}`}>
                 <div className="space-y-1 px-2 pb-3 pt-2">
                     <NavLink to="/" onClick={() => setMobileOpen(false)} className="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-white/5 hover:text-white">Recettes</NavLink>
                     <span
@@ -76,5 +76,3 @@ const Nav  = () => {
         </nav>
     );
 }
-
-export default Nav

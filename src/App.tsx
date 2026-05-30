@@ -5,7 +5,7 @@ import AddRecipe from "./pages/recipes/add/add";
 import ListRecipe from "./pages/recipes/list/list";
 import RecipeDetail from "./pages/recipes/detail";
 
-function App() {
+export default function App() {
     return (
         <>
             <Nav/>
@@ -18,5 +18,3 @@ function App() {
         </>
     );
 }
-
-export default App;

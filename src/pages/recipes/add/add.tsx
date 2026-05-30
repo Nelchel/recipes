@@ -1,8 +1,8 @@
 import RecipeForm from "../../../components/RecipeForm/RecipeForm";
-import React, {useEffect, useState} from "react";
+import {useEffect, useState} from "react";
 import Notification from "../../../components/Notification/Notification";
 import {AnimatePresence} from "framer-motion";
-import "./add.css"
+import styles from "./add.module.scss";
 
 export default function AddRecipe() {
     const [isSubmit, setIsSubmit] = useState(false);
@@ -20,7 +20,7 @@ export default function AddRecipe() {
     return (
         <section className="relative">
             <div className="max-w-7xl m-auto relative">
-                <h2 className="add-title">Ajouter une recette</h2>
+                <h2 className={styles.addTitle}>Ajouter une recette</h2>
                 <RecipeForm setIsSubmit={setIsSubmit}/>
                 <AnimatePresence>
                     {isSubmit && <Notification/>}
@@ -28,5 +28,5 @@ export default function AddRecipe() {
             </div>
             <div className="ellipse ellipse-one"/>
         </section>
-    )
+    );
 }

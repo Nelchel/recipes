@@ -1,11 +1,18 @@
-import React, {useEffect, useState} from "react";
+import {useEffect, useState} from "react";
 import RecipeList from "../../../components/RecipeList/RecipeList";
 import {db} from "../../../firebaseClient";
 import {collection, onSnapshot, orderBy, query,} from "firebase/firestore";
 import {useNavigate} from "react-router-dom";
 
+interface Recipe {
+    id: string;
+    title: string;
+    description: string;
+    [key: string]: unknown;
+}
+
 export default function ListRecipe() {
-    const [recipes, setRecipes] = useState([]);
+    const [recipes, setRecipes] = useState<Recipe[]>([]);
     const [loading, setLoading] = useState(true);
     const [err, setErr] = useState("");
 
@@ -25,7 +32,7 @@ export default function ListRecipe() {
                         createdAt: data.createdAt?.toDate
                             ? data.createdAt.toDate()
                             : data.createdAt || null,
-                    };
+                    } as unknown as Recipe;
                 });
                 setRecipes(list);
                 setLoading(false);
@@ -56,7 +63,7 @@ export default function ListRecipe() {
                 {err ? (
                     <p className="text-red-400">{err}</p>
                 ) : (
-                    <RecipeList recipes={recipes} onSelect={(id) => navigate(`/recipes/${id}`)}/>
+                    <RecipeList recipes={recipes} onSelect={(id: string) => navigate(`/recipes/${id}`)}/>
                 )}
             </div>
             <div className="ellipse ellipse-one"/>

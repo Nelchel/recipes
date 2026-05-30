@@ -1,14 +1,24 @@
-import React, {useEffect, useState} from "react";
-import './RecipeForm.css';
+import {useEffect, useState, type FormEvent} from "react";
+import styles from "./RecipeForm.module.scss";
 import {collection, doc, serverTimestamp, setDoc,} from "firebase/firestore";
 import {db} from "../../firebaseClient";
-import Button from "../Button/Button"
+import Button from "../Button/Button";
 
-export default function RecipeForm({setIsSubmit}) {
+interface RecipeFormProps {
+    setIsSubmit: (v: boolean) => void;
+}
+
+interface Ingredient {
+    name: string;
+    qty: string;
+    unit: string;
+}
+
+export default function RecipeForm({setIsSubmit}: RecipeFormProps) {
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
-    const [ingredients, setIngredients] = useState([{name: "", qty: "", unit: ""}]);
-    const [steps, setSteps] = useState([""]);
+    const [ingredients, setIngredients] = useState<Ingredient[]>([{name: "", qty: "", unit: ""}]);
+    const [steps, setSteps] = useState<string[]>([""]);
     const [prepTime, setPrepTime] = useState("");
     const [cookTime, setCookTime] = useState("");
     const [servings, setServings] = useState("");
@@ -50,20 +60,20 @@ export default function RecipeForm({setIsSubmit}) {
     const addIngredient = () =>
         setIngredients((arr) => [...arr, {name: "", qty: "", unit: ""}]);
 
-    const removeIngredient = (idx) =>
+    const removeIngredient = (idx: number) =>
         setIngredients((arr) => arr.filter((_, i) => i !== idx));
 
-    const updateIngredient = (idx, field, value) =>
+    const updateIngredient = (idx: number, field: keyof Ingredient, value: string) =>
         setIngredients((arr) =>
             arr.map((ing, i) => (i === idx ? {...ing, [field]: value} : ing))
         );
 
     const addStep = () => setSteps((arr) => [...arr, ""]);
-    const removeStep = (idx) => setSteps((arr) => arr.filter((_, i) => i !== idx));
-    const updateStep = (idx, value) =>
+    const removeStep = (idx: number) => setSteps((arr) => arr.filter((_, i) => i !== idx));
+    const updateStep = (idx: number, value: string) =>
         setSteps((arr) => arr.map((s, i) => (i === idx ? value : s)));
 
-    const onSubmit = async (e) => {
+    const onSubmit = async (e: FormEvent) => {
         e.preventDefault();
         setSubmitting(true);
 
@@ -109,23 +119,24 @@ export default function RecipeForm({setIsSubmit}) {
             setSubmitting(false);
         }
     };
+
     return (
-        <form className="form" onSubmit={onSubmit}>
-            <div className="form-content">
+        <form className={styles.form} onSubmit={onSubmit}>
+            <div className={styles.formContent}>
                 <div className="flex gap-6">
-                    <div className="form-content-file">
+                    <div className={styles.formContentFile}>
                         <div className="flex items-center justify-center">
-                            <label htmlFor="dropzone-file" className="dropzone-file">
+                            <label htmlFor="dropzone-file" className={styles.dropzoneFile}>
                                 <svg className="w-8 h-8 mb-4" aria-hidden="true"
                                      xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
                                     <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round"
                                           strokeWidth="2"
                                           d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"/>
                                 </svg>
-                                <p className="dropzone-file-label">
+                                <p className={styles.dropzoneFileLabel}>
                                     <span>Cliquez pour importer</span> ou faites glisser vos fichiers ici
                                 </p>
-                                <p className="dropzone-file-sublabel">SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
+                                <p className={styles.dropzoneFileSublabel}>SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
                                 <input
                                     id="dropzone-file"
                                     type="file"
@@ -157,11 +168,11 @@ export default function RecipeForm({setIsSubmit}) {
                     </div>
                 </div>
                 <div className="flex gap-6 pt-4 w-full">
-                    <div className="form-content-input-large">
+                    <div className={styles.formContentInputLarge}>
                         <p className="pb-4">Instructions</p>
                         {steps.map((step, idx) => (
                             <div key={idx} className="flex items-center gap-2 pb-3">
-                                <span className="w-7 text-secondary">{idx + 1}.</span>
+                                <span className={styles.textSecondary}>{idx + 1}.</span>
                                 <input
                                     className="form-content-input w-full"
                                     placeholder="Instructions"
@@ -178,7 +189,7 @@ export default function RecipeForm({setIsSubmit}) {
                                     <button
                                         type="button"
                                         onClick={() => removeStep(idx)}
-                                        className="inline-flex h-9 w-9 items-center justify-center rounded-button button-minus"
+                                        className={`inline-flex h-9 w-9 items-center justify-center ${styles.roundedButton} ${styles.buttonMinus}`}
                                         aria-label="Supprimer une étape"
                                     >
                                         <span>-</span>
@@ -190,18 +201,18 @@ export default function RecipeForm({setIsSubmit}) {
                             <button
                                 type="button"
                                 onClick={addStep}
-                                className="inline-flex h-9 w-9 items-center justify-center rounded-button"
+                                className={`inline-flex h-9 w-9 items-center justify-center ${styles.roundedButton}`}
                                 aria-label="Ajouter une étape"
                             >
                                 <span>+</span>
                             </button>
                         </div>
                     </div>
-                    <div className="form-content-input-large">
+                    <div className={styles.formContentInputLarge}>
                         <p className="pb-4">Ingrédients</p>
                         {ingredients.map((ing, idx) => (
                             <div key={idx} className="flex items-center gap-2 pb-3">
-                                <span className="w-7 text-secondary">{idx + 1}.</span>
+                                <span className={styles.textSecondary}>{idx + 1}.</span>
                                 <input
                                     className="form-content-input w-full"
                                     placeholder="Nom de l'ingrédient"
@@ -209,13 +220,13 @@ export default function RecipeForm({setIsSubmit}) {
                                     onChange={(e) => updateIngredient(idx, "name", e.target.value)}
                                 />
                                 <input
-                                    className="form-content-input form-content-input-qty"
+                                    className={`form-content-input ${styles.formContentInputQty}`}
                                     placeholder="Quantité"
                                     value={ing.qty}
                                     onChange={(e) => updateIngredient(idx, "qty", e.target.value)}
                                 />
                                 <input
-                                    className="form-content-input form-content-input-qty"
+                                    className={`form-content-input ${styles.formContentInputQty}`}
                                     placeholder="Unité"
                                     value={ing.unit}
                                     onChange={(e) => updateIngredient(idx, "unit", e.target.value)}
@@ -224,7 +235,7 @@ export default function RecipeForm({setIsSubmit}) {
                                     <button
                                         type="button"
                                         onClick={() => removeIngredient(idx)}
-                                        className="inline-flex h-9 w-9 items-center justify-center rounded-button button-minus"
+                                        className={`inline-flex h-9 w-9 items-center justify-center ${styles.roundedButton} ${styles.buttonMinus}`}
                                         aria-label="Supprimer une étape"
                                     >
                                         <span>-</span>
@@ -236,7 +247,7 @@ export default function RecipeForm({setIsSubmit}) {
                             <button
                                 type="button"
                                 onClick={addIngredient}
-                                className="inline-flex h-9 w-9 items-center justify-center rounded-button"
+                                className={`inline-flex h-9 w-9 items-center justify-center ${styles.roundedButton}`}
                                 aria-label="Ajouter une étape"
                             >
                                 <span>+</span>
@@ -245,17 +256,17 @@ export default function RecipeForm({setIsSubmit}) {
                     </div>
                 </div>
                 <div className="flex items-center gap-6 pt-6">
-                    <div className="form-content-input-time">
+                    <div className={styles.formContentInputTime}>
                         <p className="pb-4">Temps de préparation</p>
                         <input type="text" className="form-content-input w-full" value={prepTime}
                                onChange={(e) => setPrepTime(e.target.value)}/>
                     </div>
-                    <div className="form-content-input-time">
+                    <div className={styles.formContentInputTime}>
                         <p className="pb-4">Temps de cuisson</p>
                         <input type="text" className="form-content-input w-full" value={cookTime}
                                onChange={(e) => setCookTime(e.target.value)}/>
                     </div>
-                    <div className="form-content-input-time">
+                    <div className={styles.formContentInputTime}>
                         <p className="pb-4">Nombre de couverts</p>
                         <input type="text" className="form-content-input w-full" value={servings}
                                onChange={(e) => setServings(e.target.value)}/>

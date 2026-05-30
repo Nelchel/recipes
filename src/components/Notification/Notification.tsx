@@ -1,12 +1,11 @@
-import "./Notification.css"
+import styles from "./Notification.module.scss"
 import {motion} from "framer-motion"
 import Progress from "../Progress/Progress";
 
 export default function Notification() {
-
     return (
         <motion.div
-            className="notification"
+            className={styles.notification}
             initial={{x: 300, opacity: 0}}
             animate={{x: 0, opacity: 1}}
             exit={{x: 300, opacity: 0}}
@@ -18,5 +17,5 @@ export default function Notification() {
             <p>La recette a été ajoutée avec succès.</p>
             <Progress/>
         </motion.div>
-    )
+    );
 }

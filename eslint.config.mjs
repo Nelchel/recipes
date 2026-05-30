@@ -152,7 +152,7 @@ export default [
             "no-use-before-define": "error",
             "react/destructuring-assignment": "off",
             "react/display-name": "error",
-            "react/jsx-filename-extension": ["error", { extensions: [".js", ".jsx"] }],
+            "react/jsx-filename-extension": ["error", { extensions: [".js", ".jsx", ".tsx"] }],
             "react/jsx-props-no-spreading": "off",
             "react/no-array-index-key": "error"
         }

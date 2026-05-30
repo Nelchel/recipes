@@ -3,20 +3,29 @@ import { db } from "../../firebaseClient";
 import { doc, getDoc } from "firebase/firestore";
 import {useEffect, useState} from "react";
 
-export default function RecipeDetail() {
-    const { id } = useParams();
+interface Recipe {
+    id: string;
+    title: string;
+    description: string;
+    [key: string]: unknown;
+}
 
-    const [recipe, setRecipe] = useState(null);
+export default function RecipeDetail() {
+    const { id } = useParams<{ id: string }>();
+
+    const [recipe, setRecipe] = useState<Recipe | null>(null);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
+        if (!id) return;
+
         const fetchRecipe = async () => {
             try {
                 const docRef = doc(db, "recipes", id);
                 const docSnap = await getDoc(docRef);
 
                 if (docSnap.exists()) {
-                    setRecipe({ id: docSnap.id, ...docSnap.data() });
+                    setRecipe({ id: docSnap.id, ...docSnap.data() } as Recipe);
                 }
             } catch (error) {
                 console.error(error);
@@ -28,6 +37,8 @@ export default function RecipeDetail() {
         fetchRecipe();
     }, [id]);
 
+    if (!recipe) return null;
+
     return (
         <div className="max-w-7xl m-auto pt-12">
             {!loading && (
@@ -37,5 +48,5 @@ export default function RecipeDetail() {
                 </div>
             )}
         </div>
-    )
+    );
 }
