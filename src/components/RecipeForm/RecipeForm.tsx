@@ -159,10 +159,10 @@ export default function RecipeForm({setIsSubmit}: RecipeFormProps) {
                             value={title}
                             onChange={(e) => setTitle(e.target.value)}
                             required
-                            className="w-full form-content-input"
+                            className={`w-full ${styles.formContentInput}`}
                         />
                         <p className="py-4">Description</p>
-                        <textarea className="w-full form-content-input form-content-input-desc"
+                        <textarea className={`w-full ${styles.formContentInput} ${styles.formContentInputDesc}`}
                               value={description}
                               onChange={(e) => setDescription(e.target.value)}/>
                     </div>
@@ -174,7 +174,7 @@ export default function RecipeForm({setIsSubmit}: RecipeFormProps) {
                             <div key={idx} className="flex items-center gap-2 pb-3">
                                 <span className={styles.textSecondary}>{idx + 1}.</span>
                                 <input
-                                    className="form-content-input w-full"
+                                    className={`${styles.formContentInput} w-full`}
                                     placeholder="Instructions"
                                     value={step}
                                     onChange={(e) => updateStep(idx, e.target.value)}
@@ -214,7 +214,7 @@ export default function RecipeForm({setIsSubmit}: RecipeFormProps) {
                             <div key={idx} className="flex items-center gap-2 pb-3">
                                 <span className={styles.textSecondary}>{idx + 1}.</span>
                                 <input
-                                    className="form-content-input w-full"
+                                    className={`${styles.formContentInput} w-full`}
                                     placeholder="Nom de l'ingrédient"
                                     value={ing.name}
                                     onChange={(e) => updateIngredient(idx, "name", e.target.value)}
@@ -258,23 +258,23 @@ export default function RecipeForm({setIsSubmit}: RecipeFormProps) {
                 <div className="flex items-center gap-6 pt-6">
                     <div className={styles.formContentInputTime}>
                         <p className="pb-4">Temps de préparation</p>
-                        <input type="text" className="form-content-input w-full" value={prepTime}
+                        <input type="text" className={`${styles.formContentInput} w-full`} value={prepTime}
                                onChange={(e) => setPrepTime(e.target.value)}/>
                     </div>
                     <div className={styles.formContentInputTime}>
                         <p className="pb-4">Temps de cuisson</p>
-                        <input type="text" className="form-content-input w-full" value={cookTime}
+                        <input type="text" className={`${styles.formContentInput} w-full`} value={cookTime}
                                onChange={(e) => setCookTime(e.target.value)}/>
                     </div>
                     <div className={styles.formContentInputTime}>
                         <p className="pb-4">Nombre de couverts</p>
-                        <input type="text" className="form-content-input w-full" value={servings}
+                        <input type="text" className={`${styles.formContentInput} w-full`} value={servings}
                                onChange={(e) => setServings(e.target.value)}/>
                     </div>
                 </div>
                 <div className="w-full">
                     <p className="pb-4 pt-8">Tags de la recette</p>
-                    <input type="text" className="form-content-input w-full" value={tags}
+                    <input type="text" className={`${styles.formContentInput} w-full`} value={tags}
                            onChange={(e) => setTags(e.target.value)}/>
                 </div>
                 <div className="w-fit m-auto pt-10">
