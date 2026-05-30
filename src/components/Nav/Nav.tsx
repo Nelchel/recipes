@@ -34,9 +34,8 @@ export default function Nav() {
                         </div>
                         <div className="hidden sm:ml-6 sm:block">
                             <div className="flex space-x-4">
-                                <NavLink to="/" className="rounded-md bg-gray-950/50 px-3 py-2 text-sm font-medium text-white">Recettes</NavLink>
-                                <span
-                                   className="rounded-md px-3 py-2 text-sm font-medium text-gray-300 cursor-default">Accueil</span>
+                                <NavLink to="/" end className="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-white/5 hover:text-white">Accueil</NavLink>
+                                <NavLink to="/recipes/list" className="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-white/5 hover:text-white">Recettes</NavLink>
                             <span
                                    className="rounded-md px-3 py-2 text-sm font-medium text-gray-300 cursor-default">Trouver une recette</span>
                             <span
@@ -64,9 +63,8 @@ export default function Nav() {
             <div id="mobile-menu"
                  className={`sm:hidden ${mobileOpen ? "" : "hidden"}`}>
                 <div className="space-y-1 px-2 pb-3 pt-2">
-                    <NavLink to="/" onClick={() => setMobileOpen(false)} className="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-white/5 hover:text-white">Recettes</NavLink>
-                    <span
-                       className="block rounded-md px-3 py-2 text-base font-medium text-gray-300 cursor-default">Accueil</span>
+                    <NavLink to="/" end onClick={() => setMobileOpen(false)} className="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-white/5 hover:text-white">Accueil</NavLink>
+                    <NavLink to="/recipes/list" onClick={() => setMobileOpen(false)} className="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-white/5 hover:text-white">Recettes</NavLink>
                     <span
                        className="block rounded-md px-3 py-2 text-base font-medium text-gray-300 cursor-default">Trouver une recette</span>
                     <span

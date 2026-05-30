@@ -6,39 +6,39 @@
     border-radius: 24px;
 }
 
-.form-content {
+.formContent {
     position: relative;
     z-index: 2;
 }
 
-.form-content-file {
+.formContentFile {
     min-width: 345px;
 }
 
-.form-content-input {
+.formContentInput {
     background: #0000004A;
     border-radius: 8px;
     padding: 12px;
     color: white;
 }
 
-.form-content-input-desc {
+.formContentInputDesc {
     height: 151px;
 }
 
-.form-content-input-large {
+.formContentInputLarge {
     min-width: calc(50% - 8px);
 }
 
-.form-content-input-qty {
+.formContentInputQty {
     max-width: 100px;
 }
 
-.form-content-input-time {
+.formContentInputTime {
     min-width: calc(100% / 3 - (48px / 3));
 }
 
-.form-content-button {
+.formContentButton {
     background: #6B5DFF;
     padding: 10px 24px;
     border-radius: 4px;
@@ -50,7 +50,7 @@
     color: #E5E5E5;
 }
 
-.dropzone-file {
+.dropzoneFile {
     background: #0000004A;
     border-radius: 8px;
     padding: 24px;
@@ -74,20 +74,20 @@
     }
 }
 
-.dropzone-file-label {
+.dropzoneFileLabel {
     padding: 16px 0;
 }
 
-.dropzone-file-sublabel {
+.dropzoneFileSublabel {
     font-size: 13px;
     line-height: 16px;
 }
 
-.text-secondary {
+.textSecondary {
     color: #7C7C7C;
 }
 
-.rounded-button {
+.roundedButton {
     border-radius: 50%;
     background: #6155F5;
     border: none;
@@ -101,16 +101,16 @@
     }
 }
 
-.rounded-button:hover {
+.roundedButton:hover {
     box-shadow: 0 0 24px 0 #6361F266;
 }
 
-.rounded-button:active {
+.roundedButton:active {
     transform: scale(0.97);
     box-shadow: 0 0 24px 0 #6361F266;
 }
 
-.button-minus {
+.buttonMinus {
     min-width: 36px;
     min-height: 36px;
 }
