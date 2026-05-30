@@ -44,7 +44,7 @@
     border-radius: 4px;
 }
 
-p {
+.form p {
     font-size: 15px;
     line-height: 20px;
     color: #E5E5E5;
@@ -81,4 +81,36 @@ p {
 .dropzone-file-sublabel {
     font-size: 13px;
     line-height: 16px;
+}
+
+.text-secondary {
+    color: #7C7C7C;
+}
+
+.rounded-button {
+    border-radius: 50%;
+    background: #6155F5;
+    border: none;
+    font-family: inherit;
+    text-align: center;
+    cursor: pointer;
+    transition: 0.4s;
+
+    span {
+        color: #E5E5E5;
+    }
+}
+
+.rounded-button:hover {
+    box-shadow: 0 0 24px 0 #6361F266;
+}
+
+.rounded-button:active {
+    transform: scale(0.97);
+    box-shadow: 0 0 24px 0 #6361F266;
+}
+
+.button-minus {
+    min-width: 36px;
+    min-height: 36px;
 }

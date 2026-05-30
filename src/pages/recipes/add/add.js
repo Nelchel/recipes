@@ -4,7 +4,7 @@ import Notification from "../../../components/Notification/Notification";
 import {AnimatePresence} from "framer-motion";
 import "./add.css"
 
-export default function AddRecipe({addRecipe}) {
+export default function AddRecipe() {
     const [isSubmit, setIsSubmit] = useState(false);
 
     useEffect(() => {

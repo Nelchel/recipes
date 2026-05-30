@@ -2,6 +2,7 @@ import React, {useEffect, useState} from "react";
 import './RecipeForm.css';
 import {collection, doc, serverTimestamp, setDoc,} from "firebase/firestore";
 import {db} from "../../firebaseClient";
+import Button from "../Button/Button"
 
 export default function RecipeForm({setIsSubmit}) {
     const [title, setTitle] = useState("");
@@ -12,13 +13,8 @@ export default function RecipeForm({setIsSubmit}) {
     const [cookTime, setCookTime] = useState("");
     const [servings, setServings] = useState("");
     const [tags, setTags] = useState("");
-    const [imageFile, setImageFile] = useState(null);
     const [imagePreview, setImagePreview] = useState("");
     const [submitting, setSubmitting] = useState(false);
-
-    const [errorMsg, setErrorMsg] = useState("");
-
-    const [image, setImage] = useState("")
 
     useEffect(() => {
         const saved = localStorage.getItem("recipeForm");
@@ -32,7 +28,7 @@ export default function RecipeForm({setIsSubmit}) {
             setCookTime(data.cookTime || "");
             setServings(data.servings || "");
             setTags(data.tags || "");
-            setImage(data.image || null);
+            setImagePreview(data.imagePreview || "");
         }
     }, []);
 
@@ -46,10 +42,10 @@ export default function RecipeForm({setIsSubmit}) {
             cookTime,
             servings,
             tags,
-            image,
+            imagePreview: imagePreview || "",
         };
         localStorage.setItem("recipeForm", JSON.stringify(data));
-    }, [title, description, ingredients, steps, prepTime, cookTime, servings, tags, image]);
+    }, [title, description, ingredients, steps, prepTime, cookTime, servings, tags, imagePreview]);
 
     const addIngredient = () =>
         setIngredients((arr) => [...arr, {name: "", qty: "", unit: ""}]);
@@ -70,17 +66,12 @@ export default function RecipeForm({setIsSubmit}) {
     const onSubmit = async (e) => {
         e.preventDefault();
         setSubmitting(true);
-        setErrorMsg("");
 
         try {
             const cleanedIngredients = ingredients.filter((i) => i.name.trim() !== "");
             const cleanedSteps = steps.filter((s) => s.trim() !== "");
             const id = (window.crypto?.randomUUID?.() ?? String(Date.now()));
             const tagsArr = tags.split(",").map((t) => t.trim()).filter(Boolean);
-
-            // upload image (si présente)
-            /*            const imageUrl = await uploadImageIfNeeded(id);*/
-
 
             const recipe = {
                 id,
@@ -108,13 +99,12 @@ export default function RecipeForm({setIsSubmit}) {
             setCookTime("");
             setServings("");
             setTags("");
-            setImageFile(null);
             setImagePreview("");
             localStorage.removeItem("recipeForm");
 
             setIsSubmit(true)
         } catch (err) {
-            setErrorMsg("Impossible d’enregistrer la recette. Réessaie dans un instant.");
+            console.error("Failed to save recipe:", err);
         } finally {
             setSubmitting(false);
         }
@@ -136,7 +126,18 @@ export default function RecipeForm({setIsSubmit}) {
                                     <span>Cliquez pour importer</span> ou faites glisser vos fichiers ici
                                 </p>
                                 <p className="dropzone-file-sublabel">SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
-                                <input id="dropzone-file" type="file" className="hidden"/>
+                                <input
+                                    id="dropzone-file"
+                                    type="file"
+                                    className="hidden"
+                                    accept="image/*"
+                                    onChange={(e) => {
+                                        const file = e.target.files?.[0];
+                                        if (file) {
+                                            setImagePreview(URL.createObjectURL(file));
+                                        }
+                                    }}
+                                />
                             </label>
                         </div>
                         <p className="pt-4">Télécharger l'image de couverture de la recette</p>
@@ -151,7 +152,8 @@ export default function RecipeForm({setIsSubmit}) {
                         />
                         <p className="py-4">Description</p>
                         <textarea className="w-full form-content-input form-content-input-desc"
-                                  onChange={(e) => setDescription(e.target.value)}/>
+                              value={description}
+                              onChange={(e) => setDescription(e.target.value)}/>
                     </div>
                 </div>
                 <div className="flex gap-6 pt-4 w-full">
@@ -159,10 +161,10 @@ export default function RecipeForm({setIsSubmit}) {
                         <p className="pb-4">Instructions</p>
                         {steps.map((step, idx) => (
                             <div key={idx} className="flex items-center gap-2 pb-3">
-                                <span className="w-7 text-slate-500">{idx + 1}.</span>
+                                <span className="w-7 text-secondary">{idx + 1}.</span>
                                 <input
                                     className="form-content-input w-full"
-                                    placeholder="direction..."
+                                    placeholder="Instructions"
                                     value={step}
                                     onChange={(e) => updateStep(idx, e.target.value)}
                                     onKeyDown={(e) => {
@@ -176,10 +178,10 @@ export default function RecipeForm({setIsSubmit}) {
                                     <button
                                         type="button"
                                         onClick={() => removeStep(idx)}
-                                        className="px-2 py-2 rounded-md border border-slate-300 hover:bg-slate-50"
-                                        aria-label="Supprimer l'étape"
+                                        className="inline-flex h-9 w-9 items-center justify-center rounded-button button-minus"
+                                        aria-label="Supprimer une étape"
                                     >
-                                        🗑
+                                        <span>-</span>
                                     </button>
                                 )}
                             </div>
@@ -188,10 +190,10 @@ export default function RecipeForm({setIsSubmit}) {
                             <button
                                 type="button"
                                 onClick={addStep}
-                                className="inline-flex h-9 w-9 items-center justify-center rounded-full border bg-slate-50 border-slate-300 hover:bg-slate-50"
+                                className="inline-flex h-9 w-9 items-center justify-center rounded-button"
                                 aria-label="Ajouter une étape"
                             >
-                                +
+                                <span>+</span>
                             </button>
                         </div>
                     </div>
@@ -199,22 +201,22 @@ export default function RecipeForm({setIsSubmit}) {
                         <p className="pb-4">Ingrédients</p>
                         {ingredients.map((ing, idx) => (
                             <div key={idx} className="flex items-center gap-2 pb-3">
-                                <span className="w-7 text-slate-500">{idx + 1}.</span>
+                                <span className="w-7 text-secondary">{idx + 1}.</span>
                                 <input
                                     className="form-content-input w-full"
-                                    placeholder="ingredient name"
+                                    placeholder="Nom de l'ingrédient"
                                     value={ing.name}
                                     onChange={(e) => updateIngredient(idx, "name", e.target.value)}
                                 />
                                 <input
                                     className="form-content-input form-content-input-qty"
-                                    placeholder="quantity"
+                                    placeholder="Quantité"
                                     value={ing.qty}
                                     onChange={(e) => updateIngredient(idx, "qty", e.target.value)}
                                 />
                                 <input
                                     className="form-content-input form-content-input-qty"
-                                    placeholder="unit"
+                                    placeholder="Unité"
                                     value={ing.unit}
                                     onChange={(e) => updateIngredient(idx, "unit", e.target.value)}
                                 />
@@ -222,23 +224,22 @@ export default function RecipeForm({setIsSubmit}) {
                                     <button
                                         type="button"
                                         onClick={() => removeIngredient(idx)}
-                                        className="col-span-1 px-2 py-2 rounded-md border border-slate-300 hover:bg-slate-50"
-                                        aria-label="Supprimer l'ingrédient"
+                                        className="inline-flex h-9 w-9 items-center justify-center rounded-button button-minus"
+                                        aria-label="Supprimer une étape"
                                     >
-                                        🗑
+                                        <span>-</span>
                                     </button>
                                 )}
                             </div>
                         ))}
-
                         <div className="m-auto w-fit pt-3">
                             <button
                                 type="button"
                                 onClick={addIngredient}
-                                className="inline-flex h-9 w-9 items-center justify-center rounded-full border bg-slate-50 border-slate-300 hover:bg-slate-50"
+                                className="inline-flex h-9 w-9 items-center justify-center rounded-button"
                                 aria-label="Ajouter une étape"
                             >
-                                +
+                                <span>+</span>
                             </button>
                         </div>
                     </div>
@@ -246,23 +247,27 @@ export default function RecipeForm({setIsSubmit}) {
                 <div className="flex items-center gap-6 pt-6">
                     <div className="form-content-input-time">
                         <p className="pb-4">Temps de préparation</p>
-                        <input type="text" className="form-content-input w-full"/>
+                        <input type="text" className="form-content-input w-full" value={prepTime}
+                               onChange={(e) => setPrepTime(e.target.value)}/>
                     </div>
                     <div className="form-content-input-time">
                         <p className="pb-4">Temps de cuisson</p>
-                        <input type="text" className="form-content-input w-full"/>
+                        <input type="text" className="form-content-input w-full" value={cookTime}
+                               onChange={(e) => setCookTime(e.target.value)}/>
                     </div>
                     <div className="form-content-input-time">
                         <p className="pb-4">Nombre de couverts</p>
-                        <input type="text" className="form-content-input w-full"/>
+                        <input type="text" className="form-content-input w-full" value={servings}
+                               onChange={(e) => setServings(e.target.value)}/>
                     </div>
                 </div>
                 <div className="w-full">
                     <p className="pb-4 pt-8">Tags de la recette</p>
-                    <input type="text" className="form-content-input w-full"/>
+                    <input type="text" className="form-content-input w-full" value={tags}
+                           onChange={(e) => setTags(e.target.value)}/>
                 </div>
                 <div className="w-fit m-auto pt-10">
-                    <button type="submit" className="form-content-button"><p>Ajouter une recette</p></button>
+                    <Button type="submit" disabled={submitting}><p>Ajouter une recette</p></Button>
                 </div>
             </div>
         </form>

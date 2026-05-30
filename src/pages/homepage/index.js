@@ -1,15 +1,29 @@
 import {Link} from "react-router-dom";
 import "./homepage.css";
+import React from "react";
+import Button from "../../components/Button/Button"
 
 export default function Homepage() {
     return (
         <main className="max-w-7xl m-auto px-4 py-12">
-            <h1 className="text-4xl font-extrabold">Bienvenue !</h1>
-            <p className="mt-3 text-slate-600">Ajoute tes recettes via l’onglet Recettes.</p>
+            <section className="relative">
+                <div className="max-w-7xl m-auto relative">
+                    <div className="wrapper">
+                        <h1 className="wrapper-title">Bienvenue !</h1>
+                        <h3 className="wrapper-subtitle">Ajoute tes recettes via l’onglet Recettes.</h3>
 
-
-            <Link to="/recipes/add"><button className="add-button"><p className="text-white">Ajouter une recette</p></button></Link>
-            <Link to="/recipes/list"><button className="add-button"><p className="text-white">Voir les recettes</p></button></Link>
+                        <div className="wrapper-buttons">
+                            <Link to="/recipes/add">
+                                <Button><p>Ajouter une recette</p></Button>
+                            </Link>
+                            <Link to="/recipes/list">
+                                <Button><p>Voir les recettes</p></Button>
+                            </Link>
+                        </div>
+                    </div>
+                </div>
+                <div className="ellipse ellipse-one"/>
+            </section>
         </main>
     )
 }

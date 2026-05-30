@@ -1,6 +1,31 @@
+.wrapper {
+    background: #0000004A;
+    backdrop-filter: blur(30px);
+    padding: 40px;
+    border-radius: 24px;
+}
 
-.add-button {
-    background: #6B5DFF;
-    padding: 10px 24px;
-    border-radius: 4px;
+.wrapper-title {
+    font-size: 50px;
+    line-height: 59px;
+    padding: 24px 0;
+    color: #E5E5E5;
+}
+
+.wrapper-subtitle {
+    padding: 0 0 24px;
+    font-size: 31px;
+    line-height: 38px;
+    color: #E5E5E5;
+}
+
+.wrapper-buttons {
+    display: flex;
+    gap: 16px;
+}
+
+.wrapper p {
+    font-size: 15px;
+    line-height: 20px;
+    color: #E5E5E5;
 }

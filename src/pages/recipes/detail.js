@@ -8,7 +8,6 @@ export default function RecipeDetail() {
 
     const [recipe, setRecipe] = useState(null);
     const [loading, setLoading] = useState(true);
-    const [err, setErr] = useState("");
 
     useEffect(() => {
         const fetchRecipe = async () => {
@@ -18,12 +17,9 @@ export default function RecipeDetail() {
 
                 if (docSnap.exists()) {
                     setRecipe({ id: docSnap.id, ...docSnap.data() });
-                } else {
-                    setErr("Recette introuvable.");
                 }
             } catch (error) {
                 console.error(error);
-                setErr("Erreur lors du chargement de la recette.");
             } finally {
                 setLoading(false);
             }
@@ -31,8 +27,6 @@ export default function RecipeDetail() {
 
         fetchRecipe();
     }, [id]);
-
-    console.log(recipe)
 
     return (
         <div className="max-w-7xl m-auto pt-12">

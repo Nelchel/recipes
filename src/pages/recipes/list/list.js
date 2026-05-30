@@ -1,13 +1,7 @@
-// src/pages/recipes/list.js
-import React, { useEffect, useState } from "react";
-import RecipeList from "../../components/RecipeList/RecipeList";
-import { db } from "../../firebaseClient";
-import {
-    collection,
-    query,
-    orderBy,
-    onSnapshot,
-} from "firebase/firestore";
+import React, {useEffect, useState} from "react";
+import RecipeList from "../../../components/RecipeList/RecipeList";
+import {db} from "../../../firebaseClient";
+import {collection, onSnapshot, orderBy, query,} from "firebase/firestore";
 import {useNavigate} from "react-router-dom";
 
 export default function ListRecipe() {
@@ -57,14 +51,15 @@ export default function ListRecipe() {
     }
 
     return (
-        <section>
-            <div className="max-w-7xl m-auto">
+        <section className="relative">
+            <div className="max-w-7xl m-auto relative">
                 {err ? (
                     <p className="text-red-400">{err}</p>
                 ) : (
-                    <RecipeList recipes={recipes} onSelect={(id) => navigate(`/recipes/${id}`)} />
+                    <RecipeList recipes={recipes} onSelect={(id) => navigate(`/recipes/${id}`)}/>
                 )}
             </div>
+            <div className="ellipse ellipse-one"/>
         </section>
     );
 }
